@@ -1,59 +1,95 @@
-# VideogameDiary
+# Video Game Diary
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+A Letterboxd-inspired web application for discovering video games and keeping track of what you have played, are currently playing, or want to play. Built with Angular, it uses the RAWG API for game information and an Express/MongoDB backend to store diary entries.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Browse games and navigate through paginated results.
+- Search for games by title.
+- View game descriptions, artwork, release dates, and RAWG ratings.
+- Save games as **Played**, **Playing**, or **Want to Play**.
+- Give games a personal rating from **1 to 5 stars** when adding them.
+- View saved games in a library grouped by status.
+- Remove games from the library.
+- Receive success or error messages when adding or removing games.
+- Dark interface styled with Bootstrap and custom CSS.
 
-```bash
-ng serve
-```
+## Technology
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+| Layer        | Technologies                                                  |
+| ------------ | ------------------------------------------------------------- |
+| Frontend     | Angular 21, TypeScript, Angular Router, Angular Signals, RxJS |
+| Styling      | Bootstrap 5, custom CSS                                       |
+| Game data    | [RAWG API](https://rawg.io/apidocs)                           |
+| Backend      | Node.js, Express 5, CORS, dotenv                              |
+| Database     | MongoDB, Mongoose 9                                           |
+| Unit testing | Vitest through Angular CLI                                    |
 
-## Code scaffolding
+## Getting started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerequisites
 
-```bash
-ng generate component component-name
-```
+- Node.js compatible with Angular 21: `^20.19.0`, `^22.12.0`, or `>=24.0.0`.
+- npm.
+- A RAWG API key.
+- A MongoDB connection string, using a local database or MongoDB Atlas.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### 1. Clone the repository
 
 ```bash
-ng test
+git clone https://github.com/S00271020/videogame-diary-angular.git
+cd videogame-diary-angular
+npm ci
 ```
 
-## Running end-to-end tests
+### 2. Configure the frontend
 
-For end-to-end (e2e) testing, run:
+Update `src/environments/environment.ts` with your RAWG API key and the local backend URL:
+
+```typescript
+export const environment = {
+  production: false,
+  rawgApiKey: 'YOUR_RAWG_API_KEY',
+  backendApiUrl: 'http://localhost:5050',
+};
+```
+
+The checked-in configuration contains a placeholder RAWG key and an AWS API Gateway backend URL. Replace these values to use your own local setup. The supplied `environment.example.ts` shows the API key field, but you also need `backendApiUrl` as shown above.
+
+### 3. Configure the backend
+
+Install the backend dependencies:
 
 ```bash
-ng e2e
+cd backend
+npm ci
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Copy `backend/.env.example` to `backend/.env` and supply your database connection string:
 
-## Additional Resources
+```dotenv
+MONGO_URI=mongodb://127.0.0.1:27017/videogame-diary
+PORT=5050
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+For MongoDB Atlas, replace `MONGO_URI` with your Atlas connection string.
+
+In `backend/server.js`, change the `origin` value inside `corsOptions` to allow the local Angular development server:
+
+```javascript
+origin: 'http://localhost:4200',
+```
+
+The current value allows the deployed Amplify frontend. Without this change, browser requests from the local frontend to your backend will be blocked by CORS.
+
+### 4. Start the application
+
+In a terminal inside `backend/`:
+
+```bash
+npm start
+```
+
+The backend starts listening on port `5050` after connecting to MongoDB. Visit `http://localhost:5050/` to check for the response `API is running`.
+
+In a second terminal, from the repository root:
