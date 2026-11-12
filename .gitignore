@@ -26,6 +26,7 @@ yarn-error.log
 # Environment files (API keys etc.)
 .env
 backend/.env
+environments/environment.ts
 
 # Visual Studio Code
 .vscode/

@@ -1,5 +1,7 @@
+declare const RAWG_API_KEY: string;
+
 export const environment = {
   production: false,
-  rawgApiKey: 'PLACEHOLDER',
-  backendApiUrl: 'https://87rdyj1me0.execute-api.eu-west-1.amazonaws.com/prod',
+  rawgApiKey: RAWG_API_KEY,
+  backendApiUrl: 'http://localhost:5050',
 };
