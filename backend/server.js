@@ -8,7 +8,7 @@ const app = express();
 console.log('Starting backend server...');
 
 const corsOptions = {
-  origin: 'https://main.d1a98ijehi68oz.amplifyapp.com',
+  origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
